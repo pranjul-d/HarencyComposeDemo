@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">JetpackComposeDemo</string>
+    <string name="title_activity_list_screen">ListScreenActivity</string>
+    <string name="name">Pranjul Dhiman</string>
+    <string name="title_activity_box_constraints">BoxConstraintsActivity</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_to_continue">Please sign in to continue further</string>
+    <string name="title_activity_room_db">RoomDbActivity</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_activity_scaffold">ScaffoldActivity</string>
+</resources>
