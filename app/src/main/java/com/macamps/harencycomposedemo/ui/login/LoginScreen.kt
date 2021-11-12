@@ -1,5 +1,7 @@
 package com.macamps.harencycomposedemo.ui.login
 
+import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +16,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,9 +32,11 @@ import androidx.navigation.NavController
 import com.macamps.harencycomposedemo.DividerView
 import com.macamps.harencycomposedemo.R
 import com.macamps.harencycomposedemo.SocialLoginButtons
+import com.macamps.harencycomposedemo.data.UserRegisterModel
 import com.macamps.harencycomposedemo.navigation.Screen
 import com.macamps.harencycomposedemo.ui.theme.Purple500
 import com.macamps.harencycomposedemo.utils.DrawableWrapper
+import com.macamps.harencycomposedemo.utils.State
 import com.macamps.harencycomposedemo.viewModel.LoginSharedViewModel
 
 @Composable
@@ -90,6 +95,7 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
 //    val context = LocalContext.current
 
     val country = sharedViewModel.countryLiveData.observeAsState()
+    val context = (LocalContext.current as? Activity)
 
 //    val country = remember { navController.previousBackStackEntry?.savedStateHandle?.get<CountriesItem>("data") }
 //    Log.e("TAG", "LoginCardView: ${getData?.value?.icCode}", )
@@ -109,8 +115,23 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
     }
 
 
+    val loginResponse = sharedViewModel.loginLiveData.observeAsState()
 
+    when (loginResponse.value) {
+        is State.Success -> {
+            Toast.makeText(
+                context,
+                (loginResponse.value as State.Success<UserRegisterModel>).data?.message,
+                Toast.LENGTH_SHORT
+            ).show()
 
+        }
+        is State.Loading -> {
+        }
+        is State.Failure -> {
+        }
+        else -> Unit
+    }
     Card(
         elevation = 5.dp,
         shape = RoundedCornerShape(20.dp),
@@ -125,7 +146,7 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
                 TextField(
                     value = phoneNumber,
                     onValueChange = {
-                        if (it.text.length<= maxLength) phoneNumber = it
+                        if (it.text.length <= maxLength) phoneNumber = it
 
                     },
                     leadingIcon = { Purple500 },
@@ -195,7 +216,16 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
             )
 
             Button(
-                onClick = {}, modifier = Modifier
+                onClick = {
+                    val hashMap = HashMap<String, String?>()
+                    hashMap["phone_number"] = phoneNumber.text
+                    hashMap["country_code"] = value
+                    hashMap["password"] = password.text
+                    hashMap["device_type"] = "1"
+                    hashMap["device_token"] = "sss"
+                    sharedViewModel.login(hashMap)
+
+                }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 15.dp)
                     .height(42.dp),
@@ -221,3 +251,4 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
     }
 
 }
+

@@ -40,6 +40,7 @@ object NetworkModule {
     @Provides
     fun provideMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
+
     @Singleton
     @Provides
     fun provideApiService(moshi: Moshi, okHttpClient: OkHttpClient): ApiService =

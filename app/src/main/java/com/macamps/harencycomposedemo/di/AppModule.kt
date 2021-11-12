@@ -2,7 +2,9 @@ package com.macamps.harencycomposedemo.di
 
 import android.content.Context
 import com.macamps.harencycomposedemo.HarencyApplication
+import com.macamps.harencycomposedemo.data.network.ApiService
 import com.macamps.harencycomposedemo.repositories.UserRepository
+import com.macamps.harencycomposedemo.ui.login.repo.LoginRepository
 import com.softradix.jetpackcomposedemo.database.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -25,5 +27,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideUserRepository(userDao: UserDao) = UserRepository(userDao)
+
+    @Singleton
+    @Provides
+    fun provideLoginRepository(api: ApiService) = LoginRepository(api = api)
 
 }
