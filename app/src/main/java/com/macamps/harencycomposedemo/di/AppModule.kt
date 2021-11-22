@@ -6,6 +6,7 @@ import com.macamps.harencycomposedemo.data.network.ApiService
 import com.macamps.harencycomposedemo.repositories.UserRepository
 import com.macamps.harencycomposedemo.ui.login.repo.LoginRepository
 import com.softradix.jetpackcomposedemo.database.dao.UserDao
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +23,6 @@ object AppModule {
     fun provideApplication(@ApplicationContext app: Context): HarencyApplication {
         return app as HarencyApplication
     }
-
 
     @Singleton
     @Provides

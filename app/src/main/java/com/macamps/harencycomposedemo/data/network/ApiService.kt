@@ -11,7 +11,7 @@ interface ApiService {
 
     companion object{
        const val BASE_URL = "https://jsonplaceholder.typicode.com/"
-       const val debugURL = "https://harency.softradixtechnologies.com/"
+       const val debugURL = "https://harency.softradixtechnologies.com/api/"
     }
 
     @GET("posts")

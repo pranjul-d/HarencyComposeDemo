@@ -40,29 +40,6 @@ object Utilities {
     }
 }
 
-fun <T> toResultFlow(call: suspend () -> Response<T>?): Flow<State<T>?> {
-    return flow {
-        emit(State.Loading)
-
-        try {
-            val c = call()
-            c?.let {
-                if (c.isSuccessful) {
-                    emit(State.Success(c.body()))
-                } else {
-                    c.errorBody()?.let {
-                        val error = it.string()
-                        it.close()
-                        emit(State.Failure(error))
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            emit(State.Failure(e.toString()))
-        }
-
-    }.flowOn(Dispatchers.IO)
-}
 fun Modifier.navigateUp(navController: NavController, data:Any?, route: String) {
     clickable {
         navController.currentBackStackEntry?.savedStateHandle?.set("data", data)

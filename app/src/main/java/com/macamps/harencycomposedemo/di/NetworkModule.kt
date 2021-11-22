@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -45,8 +46,8 @@ object NetworkModule {
     @Provides
     fun provideApiService(moshi: Moshi, okHttpClient: OkHttpClient): ApiService =
         Retrofit.Builder().run {
-            baseUrl(ApiService.BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
+            baseUrl(ApiService.debugURL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
         }.create(ApiService::class.java)

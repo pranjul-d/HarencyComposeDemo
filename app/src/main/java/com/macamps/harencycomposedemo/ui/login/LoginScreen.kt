@@ -38,6 +38,7 @@ import com.macamps.harencycomposedemo.ui.theme.Purple500
 import com.macamps.harencycomposedemo.utils.DrawableWrapper
 import com.macamps.harencycomposedemo.utils.State
 import com.macamps.harencycomposedemo.viewModel.LoginSharedViewModel
+import retrofit2.Response
 
 @Composable
 fun HarencyLoginScreen(
@@ -105,6 +106,10 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
         mutableStateOf(TextFieldValue(""))
     }
     val maxLength = 10
+/*    val loginResponse = produceState<State<Response<UserRegisterModel>>?>(initialValue = State.Loading){
+        value= sharedViewModel.loginLiveData
+    }.value*/
+    val loginResponse = sharedViewModel.loginLiveData.observeAsState()
     val value = if (country.value != null) "+${country.value?.codeTelePhone}" else "+91"
 
 //    var countryCode by remember {
@@ -115,20 +120,26 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
     }
 
 
-    val loginResponse = sharedViewModel.loginLiveData.observeAsState()
 
     when (loginResponse.value) {
         is State.Success -> {
             Toast.makeText(
                 context,
-                (loginResponse.value as State.Success<UserRegisterModel>).data?.message,
+                (loginResponse.value as State.Success<Response<UserRegisterModel>>).data.body()?.message,
                 Toast.LENGTH_SHORT
             ).show()
 
         }
         is State.Loading -> {
+            Toast.makeText(
+                context,
+                "Loading",
+                Toast.LENGTH_SHORT
+            ).show()
+
         }
-        is State.Failure -> {
+        is State.Error -> {
+
         }
         else -> Unit
     }
