@@ -1,11 +1,11 @@
-package com.macamps.harencycomposedemo
+package com.macamps.harencycomposedemo.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.macamps.harencycomposedemo.navigation.Screen
+import com.macamps.harencycomposedemo.CountryCodeScreen
 import com.macamps.harencycomposedemo.ui.login.HarencyLoginScreen
 import com.macamps.harencycomposedemo.viewModel.LoginSharedViewModel
 

@@ -6,7 +6,7 @@ import com.macamps.harencycomposedemo.data.UserRegisterModel
 import com.macamps.harencycomposedemo.ui.login.repo.LoginRepository
 import com.macamps.harencycomposedemo.utils.State
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -21,11 +21,10 @@ class LoginSharedViewModel @Inject constructor(private val repository: LoginRepo
     var loginLiveData: LiveData<State<Response<UserRegisterModel>>?> = mutableLoginData
 
 
-    fun login(loginRequest: HashMap<String, String?>) {
+    suspend fun login(loginRequest: HashMap<String, String?>) {
 
-
-        viewModelScope.launch {
-            mutableLoginData.value = repository.login(loginRequest)
+        mutableLoginData.value = withContext(viewModelScope.coroutineContext) {
+            repository.login(loginRequest)
         }
     }
 }

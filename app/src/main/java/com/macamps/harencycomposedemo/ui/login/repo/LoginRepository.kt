@@ -20,5 +20,4 @@ suspend fun login(loginRequest: HashMap<String, String?>): State<Response<UserRe
     return State.Success(response)
 }
 
-
 }

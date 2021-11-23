@@ -38,6 +38,7 @@ import com.macamps.harencycomposedemo.ui.theme.Purple500
 import com.macamps.harencycomposedemo.utils.DrawableWrapper
 import com.macamps.harencycomposedemo.utils.State
 import com.macamps.harencycomposedemo.viewModel.LoginSharedViewModel
+import kotlinx.coroutines.launch
 import retrofit2.Response
 
 @Composable
@@ -119,7 +120,7 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
         mutableStateOf(TextFieldValue(""))
     }
 
-
+    val scope = rememberCoroutineScope()
 
     when (loginResponse.value) {
         is State.Success -> {
@@ -234,7 +235,9 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
                     hashMap["password"] = password.text
                     hashMap["device_type"] = "1"
                     hashMap["device_token"] = "sss"
-                    sharedViewModel.login(hashMap)
+
+                    scope.launch { sharedViewModel.login(hashMap) }
+
 
                 }, modifier = Modifier
                     .fillMaxWidth()

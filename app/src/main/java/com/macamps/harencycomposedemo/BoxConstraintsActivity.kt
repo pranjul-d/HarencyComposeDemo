@@ -16,10 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.macamps.harencycomposedemo.navigation.Navigation
 import com.macamps.harencycomposedemo.ui.theme.HarencyComposeDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BoxConstraintsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             HarencyComposeDemoTheme {
                 // A surface container using the 'background' color from the theme
