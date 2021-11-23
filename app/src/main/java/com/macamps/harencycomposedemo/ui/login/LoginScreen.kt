@@ -23,7 +23,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,7 +49,7 @@ fun HarencyLoginScreen(
     sharedViewModel: LoginSharedViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
-
+Box {
     Column(
         modifier = Modifier
             .fillMaxSize(1f)
@@ -90,6 +92,9 @@ fun HarencyLoginScreen(
             )
         }
     }
+    CircularProgressIndicator()
+}
+
 }
 
 @Composable
@@ -112,13 +117,17 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
     }.value*/
     val loginResponse = sharedViewModel.loginLiveData.observeAsState()
     val value = if (country.value != null) "+${country.value?.codeTelePhone}" else "+91"
-
 //    var countryCode by remember {
 //        mutableStateOf(value)
 //    }
     var password by remember {
         mutableStateOf(TextFieldValue(""))
     }
+
+ /*   when (sharedViewModel.isVisible.value) {
+        true -> { }
+        false -> { }
+    }*/
 
     val scope = rememberCoroutineScope()
 
@@ -198,7 +207,7 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
             TextField(
                 value = password,
                 onValueChange = {
-                    password = it
+                password = it
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -209,9 +218,23 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
                         end = 20.dp
                     ),
                 placeholder = { Text("Password") },
+                visualTransformation = if (sharedViewModel.isVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White
-                )
+                ),
+                trailingIcon = {
+                    val image = if (sharedViewModel.isVisible.value)
+                        painterResource(R.drawable.ic_visibility_24)
+                    else painterResource(R.drawable.ic_visibility_off_24)
+
+
+                    IconButton(onClick = {
+                        sharedViewModel.isVisible.value = !sharedViewModel.isVisible.value
+                    }) {
+                        Image(painter  = image, "")
+                    }
+                }
             )
             Text(
                 "Forgot password?",
@@ -265,4 +288,5 @@ fun LoginCardView(navController: NavController, sharedViewModel: LoginSharedView
     }
 
 }
+
 

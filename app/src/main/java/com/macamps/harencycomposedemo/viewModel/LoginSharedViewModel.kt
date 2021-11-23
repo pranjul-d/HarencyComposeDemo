@@ -1,5 +1,6 @@
 package com.macamps.harencycomposedemo.viewModel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.macamps.harencycomposedemo.data.CountriesItem
 import com.macamps.harencycomposedemo.data.UserRegisterModel
@@ -19,6 +20,8 @@ class LoginSharedViewModel @Inject constructor(private val repository: LoginRepo
     var mutableLoginData = MutableLiveData<State<Response<UserRegisterModel>>?>()
 
     var loginLiveData: LiveData<State<Response<UserRegisterModel>>?> = mutableLoginData
+
+    var isVisible = mutableStateOf(false)
 
 
     suspend fun login(loginRequest: HashMap<String, String?>) {
