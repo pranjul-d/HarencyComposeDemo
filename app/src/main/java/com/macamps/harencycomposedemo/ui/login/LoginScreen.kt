@@ -222,8 +222,8 @@ fun LoginCardView(
                 Toast.LENGTH_SHORT
             ).show()
         }
-        is ApiState.Empty -> {}
-        is ApiState.Error -> {}
+        is ApiState.Empty -> { }
+        is ApiState.Error -> { }
         else -> Unit
     }
 
