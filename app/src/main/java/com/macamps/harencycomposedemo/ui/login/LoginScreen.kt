@@ -1,7 +1,6 @@
 package com.macamps.harencycomposedemo.ui.login
 
 import android.app.Activity
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -15,18 +14,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -39,14 +40,14 @@ import com.macamps.harencycomposedemo.SocialLoginButtons
 import com.macamps.harencycomposedemo.data.UserRegisterModel
 import com.macamps.harencycomposedemo.navigation.Screen
 import com.macamps.harencycomposedemo.ui.theme.Purple500
-import com.macamps.harencycomposedemo.utils.DrawableWrapper
+import com.macamps.harencycomposedemo.ui.theme.fonts
 import com.macamps.harencycomposedemo.utils.ApiState
+import com.macamps.harencycomposedemo.utils.DrawableWrapper
+import com.macamps.harencycomposedemo.utils.noRippleClickable
+import com.macamps.harencycomposedemo.utils.toast
 import com.macamps.harencycomposedemo.viewModel.LoginSharedViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import timber.log.Timber
 
 @Composable
 fun HarencyLoginScreen(
@@ -55,6 +56,8 @@ fun HarencyLoginScreen(
 ) {
 
     val scrollState = rememberScrollState()
+
+    SnackBarView(sharedViewModel)
     Box(modifier = Modifier.fillMaxSize()) {
         showDialog(sharedViewModel)
 
@@ -84,28 +87,61 @@ fun HarencyLoginScreen(
 
             }
 
-            Box(modifier = Modifier.padding(top = 15.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_wave),
-                    contentDescription = null, modifier =
-                    Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillWidth
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_wave2),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 10.dp),
-                    contentScale = ContentScale.FillWidth,
-                    contentDescription = null
-                )
-            }
+
         }
+//        SnackbarHost(
+//            modifier = Modifier.align(Alignment.BottomCenter),
+//            hostState = snackbarHostState,
+//            snackbar = { snackbarData: SnackbarData ->
+//                Card(
+//                    shape = RoundedCornerShape(8.dp),
+//                    border = BorderStroke(2.dp, Color.White),
+//                    modifier = Modifier
+//                        .padding(16.dp)
+//                        .wrapContentSize()
+//                ) {
+//                    Column(
+//                        modifier = Modifier.padding(8.dp),
+//                        verticalArrangement = Arrangement.spacedBy(4.dp),
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        Text(text = snackbarData.message)
+//                    }
+//                }
+//            }
+//        )
     }
 
 }
+
 @Composable
-fun showDialog(sharedViewModel: LoginSharedViewModel){
+fun SnackBarView(sharedViewModel: LoginSharedViewModel) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val response = sharedViewModel.loginApiStateFlow.collectAsState().value
+
+    when (response) {
+        is ApiState.Loading -> {
+
+        }
+        is ApiState.Success -> {
+//            scope.launch {
+//                snackbarHostState.showSnackbar(response.data.body().message)
+//            }
+        }
+        is ApiState.Empty -> {
+
+        }
+        else -> {
+
+        }
+    }
+
+
+}
+
+@Composable
+fun showDialog(sharedViewModel: LoginSharedViewModel) {
     var showDialog by remember { mutableStateOf(false) }
 
     when (sharedViewModel.loginApiStateFlow.collectAsState().value) {
@@ -134,6 +170,7 @@ fun showDialog(sharedViewModel: LoginSharedViewModel){
         }
     }
 }
+
 @Composable
 fun LoginCardView(
     navController: NavController,
@@ -217,7 +254,7 @@ fun LoginCardView(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                         keyboardActions = KeyboardActions(),
                         colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.White,
+                            backgroundColor = White,
                         ),
                     )
                     DrawableWrapper(drawableEnd = R.drawable.ic_arrow_down) {
@@ -258,7 +295,7 @@ fun LoginCardView(
                     visualTransformation = if (sharedViewModel.isVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.White
+                        backgroundColor = White
                     ),
                     trailingIcon = {
                         val image = if (sharedViewModel.isVisible.value)
@@ -289,18 +326,30 @@ fun LoginCardView(
 
                 Button(
                     onClick = {
-                        val hashMap = HashMap<String, String?>()
-                        hashMap["phone_number"] = phoneNumber.text
-                        hashMap["country_code"] = value
-                        hashMap["password"] = password.text
-                        hashMap["device_type"] = "1"
-                        hashMap["device_token"] = "sss"
+                        if (phoneNumber.text == "") {
+                            context?.toast("Please Enter your phone number!")
+                            return@Button
+                        } else if (password.text.length < 5) {
+                            context?.toast("Please length must be greater than 5")
+                            return@Button
+                        } else if (password.text == "") {
+                            context?.toast("Please Enter your password!")
+                            return@Button
+                        } else {
 
-                        scope.launch { sharedViewModel.login(hashMap) }
+                            val hashMap = HashMap<String, String?>()
+                            hashMap["phone_number"] = phoneNumber.text
+                            hashMap["country_code"] = value
+                            hashMap["password"] = password.text
+                            hashMap["device_type"] = "1"
+                            hashMap["device_token"] = "sss"
+
+                            scope.launch { sharedViewModel.login(hashMap) }
+                        }
 
                     }, modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 15.dp)
+                        .padding(horizontal = 24.dp, vertical = 10.dp)
                         .height(42.dp),
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = colorResource(R.color.mainBgColor)
@@ -309,7 +358,7 @@ fun LoginCardView(
                 ) {
                     Text(
                         stringResource(R.string.sign_in),
-                        color = Color.White,
+                        color = White,
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
@@ -320,11 +369,52 @@ fun LoginCardView(
 //            Divider
                 DividerView()
                 SocialLoginButtons()
+                SignUpView()
+
             }
         }
     }
 
 
+}
+
+@Composable
+@Preview(showBackground = true)
+fun SignUpView() {
+
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
+    ) {
+        Text(
+            "Don't have an Account? ",
+            style = TextStyle(
+                background = White,
+                color = Color.Black,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
+            ),
+            fontFamily = fonts,
+            modifier = Modifier
+                .padding()
+                .background(White)
+        )
+        Text(
+            "Sign Up",
+            style = TextStyle(
+                background = White,
+                color = Purple500,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
+            ),
+            fontFamily = fonts,
+            modifier = Modifier
+                .padding()
+                .background(White).noRippleClickable {
+
+                }
+        )
+    }
 }
 
 

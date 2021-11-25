@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -32,15 +33,42 @@ class BoxConstraintsActivity : ComponentActivity() {
         setContent {
             HarencyComposeDemoTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
 
-                    Navigation()
-                }
+                ScffoldView()
+//                Surface(color = MaterialTheme.colors.background) {}
             }
         }
 
     }
 
+}
+
+@Composable
+fun ScffoldView() {
+    val scaffoldState = rememberScaffoldState()
+
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        scaffoldState = scaffoldState,
+        content = {
+            Navigation()
+        },
+        bottomBar = {
+            Box(modifier = Modifier.padding(top = 15.dp), contentAlignment = Alignment.BottomCenter) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_wave),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillWidth
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_wave2),
+                    modifier = Modifier
+                        .padding(top = 10.dp),
+                    contentScale = ContentScale.FillWidth,
+                    contentDescription = null
+                )
+            }
+        }
+    )
 }
 
 @Composable
@@ -70,7 +98,7 @@ fun DividerView() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .padding(vertical = 20.dp)
+            .padding(vertical = 10.dp)
             .fillMaxWidth()
     ) {
         Divider(
