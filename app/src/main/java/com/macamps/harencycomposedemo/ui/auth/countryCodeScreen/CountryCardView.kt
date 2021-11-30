@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.macamps.harencycomposedemo.data.CountriesItem
 
 @Composable
-fun CountryCodeCard(country: CountriesItem?, onItemClick:()->Unit) {
+fun CountryCodeCard(country: CountriesItem?, onItemClick: () -> Unit) {
 
     Card(
         modifier = Modifier.padding(10.dp).clickable { onItemClick() },

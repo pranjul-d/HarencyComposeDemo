@@ -2,6 +2,7 @@ package com.macamps.harencycomposedemo
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,7 +29,7 @@ import androidx.navigation.NavController
 import com.macamps.harencycomposedemo.data.CountriesItem
 import com.macamps.harencycomposedemo.ui.theme.Purple500
 import com.macamps.harencycomposedemo.utils.Utilities
-import com.macamps.harencycomposedemo.viewModel.LoginSharedViewModel
+import com.macamps.harencycomposedemo.ui.auth.login.viewModel.LoginSharedViewModel
 import java.util.*
 
 @Composable
@@ -38,7 +39,7 @@ fun CountryCodeScreen(navController: NavController, sharedViewModel: LoginShared
     var filteredCountries: ArrayList<CountriesItem>
 
     var search by remember { mutableStateOf(TextFieldValue("")) }
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Image(
                 modifier = Modifier

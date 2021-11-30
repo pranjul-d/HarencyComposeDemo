@@ -1,4 +1,4 @@
-package com.macamps.harencycomposedemo.ui.login.repo
+package com.macamps.harencycomposedemo.ui.auth.login.repo
 
 
 import com.macamps.harencycomposedemo.data.UserRegisterModel

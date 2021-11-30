@@ -1,18 +1,19 @@
-package com.macamps.harencycomposedemo.viewModel
+package com.macamps.harencycomposedemo.ui.auth.login.viewModel
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.*
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.macamps.harencycomposedemo.data.CountriesItem
 import com.macamps.harencycomposedemo.data.UserRegisterModel
-import com.macamps.harencycomposedemo.ui.login.repo.LoginRepository
+import com.macamps.harencycomposedemo.ui.auth.login.repo.LoginRepository
 import com.macamps.harencycomposedemo.utils.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject

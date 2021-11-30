@@ -1,6 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.JetpackComposeDemo" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        // Set the splash screen background, animated icon, and animation duration.
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+
+        // Use windowSplashScreenAnimatedIcon to add either a drawable or an
+        // animated drawable. One of these is required.
+
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">500</item>  # Required for
+        # animated icons
+
+        // Set the theme of the Activity that directly follows your splash screen.
+        <item name="postSplashScreenTheme">@style/Theme.JetpackComposeDemo</item>  # Required.
+    </style>
+
+
+
+    <style name="Theme.JetpackComposeDemo" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -11,31 +29,19 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
+<!--        <item name="android:windowDisablePreview">true</item>-->
         <!-- Customize your theme here. -->
+
     </style>
 
-    <style name="Theme.JetpackComposeDemo.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
-    <style name="Theme.JetpackComposeDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+<!--    <style name="Theme.JetpackComposeDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
 
-    <style name="Theme.JetpackComposeDemo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+<!--    <style name="Theme.JetpackComposeDemo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
-<style name="Theme.App.Starting" parent="Theme.SplashScreen">
-    // Set the splash screen background, animated icon, and animation duration.
-    <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
 
-    // Use windowSplashScreenAnimatedIcon to add either a drawable or an
-    // animated drawable. One of these is required.
-
-    <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-    <item name="windowSplashScreenAnimationDuration">400</item>  # Required for
-    # animated icons
-
-    // Set the theme of the Activity that directly follows your splash screen.
-    <item name="postSplashScreenTheme">@style/Theme.JetpackComposeDemo</item>  # Required.
-</style>
 </resources>
 

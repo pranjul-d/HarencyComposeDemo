@@ -5,7 +5,9 @@
     <string name="title_activity_box_constraints">BoxConstraintsActivity</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_in_to_continue">Please sign in to continue further</string>
+    <string name="sign_up_to_continue">Please sign up to continue further</string>
     <string name="title_activity_room_db">RoomDbActivity</string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="title_activity_scaffold">ScaffoldActivity</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

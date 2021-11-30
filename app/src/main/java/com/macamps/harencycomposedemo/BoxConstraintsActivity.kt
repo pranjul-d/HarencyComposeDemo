@@ -24,13 +24,14 @@ import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.macamps.harencycomposedemo.navigation.Navigation
 import com.macamps.harencycomposedemo.ui.theme.HarencyComposeDemoTheme
+import com.macamps.harencycomposedemo.utils.ApiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BoxConstraintsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val splashScreen = installSplashScreen()
+//        val splashScreen = installSplashScreen()
 
         setContent {
             HarencyComposeDemoTheme {
@@ -55,48 +56,28 @@ fun ScffoldView() {
             Navigation()
         },
         bottomBar = {
-            Box(modifier = Modifier.padding(top = 15.dp), contentAlignment = Alignment.BottomCenter) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_wave),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_wave2),
-                    modifier = Modifier
-                        .padding(top = 10.dp),
-                    contentScale = ContentScale.FillWidth,
-                    contentDescription = null
-                )
-            }
+//            Box(modifier = Modifier.padding(top = 15.dp).fillMaxWidth(),
+//                contentAlignment = Alignment.BottomCenter) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.ic_wave),
+//                    contentDescription = null,
+//                    contentScale = ContentScale.FillWidth
+//                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.ic_wave2),
+//
+//                    contentScale = ContentScale.FillWidth,
+//                    contentDescription = null
+//                )
+//            }
         }
     )
 }
 
-@Composable
-fun SocialLoginButtons() {
-    val socialIconList = listOf(
-        R.drawable.ic_google,
-        R.drawable.ic_instagram,
-        R.drawable.ic_facebook,
-        R.drawable.ic_twitter_circled,
-    )
-    LazyRow(
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        items(socialIconList) { icon ->
 
-            Image(painter = painterResource(icon),
-                contentDescription = null,
-                modifier = Modifier.clickable { })
-
-        }
-    }
-}
 
 @Composable
-fun DividerView() {
+fun DividerView(message: String) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -108,7 +89,7 @@ fun DividerView() {
                 .padding(horizontal = 20.dp)
         )
         Text(
-            "Or Sign In",
+            message,
             style = TextStyle(
                 background = Color.White,
                 color = Color.Black,

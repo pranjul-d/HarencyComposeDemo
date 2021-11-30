@@ -6,8 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.macamps.harencycomposedemo.CountryCodeScreen
-import com.macamps.harencycomposedemo.ui.login.HarencyLoginScreen
-import com.macamps.harencycomposedemo.viewModel.LoginSharedViewModel
+import com.macamps.harencycomposedemo.ui.auth.login.HarencyLoginScreen
+import com.macamps.harencycomposedemo.ui.auth.login.viewModel.LoginSharedViewModel
+import com.macamps.harencycomposedemo.ui.auth.signup.SignUpScreen
 
 @Composable
 fun Navigation() {
@@ -16,9 +17,12 @@ fun Navigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.LoginScreen.route
+        startDestination = Screen.SignUpScreen.route
     ) {
 
+        composable(route = Screen.SignUpScreen.route) {
+            SignUpScreen()
+        }
         composable(route = Screen.LoginScreen.route) {
             HarencyLoginScreen(navController = navController, sharedViewModel)
 
