@@ -41,14 +41,14 @@ import com.macamps.harencycomposedemo.utils.ApiState
 import com.macamps.harencycomposedemo.utils.DrawableWrapper
 import com.macamps.harencycomposedemo.utils.noRippleClickable
 import com.macamps.harencycomposedemo.utils.toast
-import com.macamps.harencycomposedemo.ui.auth.login.viewModel.LoginSharedViewModel
+import com.macamps.harencycomposedemo.ui.auth.viewModel.AuthSharedViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 @Composable
 fun HarencyLoginScreen(
     navController: NavController,
-    sharedViewModel: LoginSharedViewModel = hiltViewModel()
+    sharedViewModel: AuthSharedViewModel = hiltViewModel()
 ) {
 
     val scrollState = rememberScrollState()
@@ -111,7 +111,7 @@ fun HarencyLoginScreen(
 }
 
 @Composable
-fun SnackBarView(sharedViewModel: LoginSharedViewModel) {
+fun SnackBarView(sharedViewModel: AuthSharedViewModel) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val response = sharedViewModel.loginApiStateFlow.collectAsState().value
@@ -137,7 +137,7 @@ fun SnackBarView(sharedViewModel: LoginSharedViewModel) {
 @Composable
 fun LoginCardView(
     navController: NavController,
-    sharedViewModel: LoginSharedViewModel,
+    sharedViewModel: AuthSharedViewModel,
 ) {
 //    val context = LocalContext.current
 
@@ -283,7 +283,10 @@ fun LoginCardView(
                             .padding(
                                 end = 15.dp,
                                 bottom = 10.dp
-                            )
+                            ).clickable {
+                                navController.navigate(Screen.ForgotPasswordScreen.route)
+
+                            }
                     )
 
                     Button(

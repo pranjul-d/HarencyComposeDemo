@@ -29,11 +29,11 @@ import androidx.navigation.NavController
 import com.macamps.harencycomposedemo.data.CountriesItem
 import com.macamps.harencycomposedemo.ui.theme.Purple500
 import com.macamps.harencycomposedemo.utils.Utilities
-import com.macamps.harencycomposedemo.ui.auth.login.viewModel.LoginSharedViewModel
+import com.macamps.harencycomposedemo.ui.auth.viewModel.AuthSharedViewModel
 import java.util.*
 
 @Composable
-fun CountryCodeScreen(navController: NavController, sharedViewModel: LoginSharedViewModel = hiltViewModel()) {
+fun CountryCodeScreen(navController: NavController, sharedViewModel: AuthSharedViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val countries = Utilities.generateList(context)
     var filteredCountries: ArrayList<CountriesItem>

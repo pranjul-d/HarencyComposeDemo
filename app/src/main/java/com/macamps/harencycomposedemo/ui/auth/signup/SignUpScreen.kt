@@ -24,9 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.macamps.harencycomposedemo.R
-import com.macamps.harencycomposedemo.ui.auth.login.viewModel.LoginSharedViewModel
 import com.macamps.harencycomposedemo.ui.theme.Purple
 import com.macamps.harencycomposedemo.ui.theme.Purple500
 import com.macamps.harencycomposedemo.ui.theme.fonts

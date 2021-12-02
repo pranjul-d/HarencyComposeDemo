@@ -4,9 +4,8 @@ import android.content.Context
 import com.macamps.harencycomposedemo.HarencyApplication
 import com.macamps.harencycomposedemo.data.network.ApiService
 import com.macamps.harencycomposedemo.repositories.UserRepository
-import com.macamps.harencycomposedemo.ui.auth.login.repo.LoginRepository
+import com.macamps.harencycomposedemo.ui.auth.login.repo.AuthRepository
 import com.softradix.jetpackcomposedemo.database.dao.UserDao
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +29,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideLoginRepository(api: ApiService) = LoginRepository(api = api)
+    fun provideLoginRepository(api: ApiService) = AuthRepository(api = api)
 
 }

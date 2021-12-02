@@ -12,22 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.macamps.harencycomposedemo.ui.auth.login.viewModel.LoginSharedViewModel
+import com.macamps.harencycomposedemo.ui.auth.viewModel.AuthSharedViewModel
 import com.macamps.harencycomposedemo.utils.ApiState
 
 @Composable
-fun showDialog(sharedViewModel: LoginSharedViewModel) {
+fun showDialog(sharedViewModel: AuthSharedViewModel) {
     var showDialog by remember { mutableStateOf(false) }
 
-    when (sharedViewModel.loginApiStateFlow.collectAsState().value) {
-        ApiState.Loading -> {
-            showDialog = true
-        }
-        ApiState.Empty -> {}
-        else -> {
-            showDialog = false
-        }
-    }
+    showDialog = sharedViewModel.isLoading.collectAsState().value
 
     if (showDialog) {
         Dialog(
