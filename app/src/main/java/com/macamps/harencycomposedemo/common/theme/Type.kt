@@ -1,4 +1,4 @@
-package com.macamps.harencycomposedemo.ui.theme
+package com.macamps.harencycomposedemo.common.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

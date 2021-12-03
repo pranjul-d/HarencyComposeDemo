@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.macamps.harencycomposedemo.data.CountriesItem
-import com.macamps.harencycomposedemo.ui.theme.Purple500
+import com.macamps.harencycomposedemo.common.theme.Purple500
 import com.macamps.harencycomposedemo.utils.Utilities
 import com.macamps.harencycomposedemo.ui.auth.viewModel.AuthSharedViewModel
 import java.util.*

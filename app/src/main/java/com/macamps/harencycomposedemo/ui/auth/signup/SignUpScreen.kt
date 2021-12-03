@@ -1,13 +1,16 @@
 package com.macamps.harencycomposedemo.ui.auth.signup
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,25 +19,28 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.macamps.harencycomposedemo.R
-import com.macamps.harencycomposedemo.ui.theme.Purple
-import com.macamps.harencycomposedemo.ui.theme.Purple500
-import com.macamps.harencycomposedemo.ui.theme.fonts
+import com.macamps.harencycomposedemo.navigation.Screen
+import com.macamps.harencycomposedemo.ui.auth.viewModel.AuthSharedViewModel
+import com.macamps.harencycomposedemo.common.theme.Purple
+import com.macamps.harencycomposedemo.common.theme.Purple500
+import com.macamps.harencycomposedemo.common.theme.fonts
 import com.macamps.harencycomposedemo.utils.DrawableWrapper
 import com.macamps.harencycomposedemo.utils.noRippleClickable
 import com.macamps.harencycomposedemo.utils.toast
 
-@Preview(showBackground = true)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(navController: NavController,viewModel: AuthSharedViewModel) {
     val scrollState = rememberScrollState()
     Scaffold(modifier = Modifier.fillMaxSize(),
         content = {
@@ -60,7 +66,7 @@ fun SignUpScreen() {
                         Text(stringResource(R.string.sign_up_to_continue))
                     }
 
-                    Box(modifier = Modifier.padding(vertical = 10.dp)) { SignUpView() }
+                    Box(modifier = Modifier.padding(vertical = 10.dp)) { SignUpView(navController,viewModel) }
 
                 }
 
@@ -69,8 +75,40 @@ fun SignUpScreen() {
         },
         bottomBar = {
             Box(
-                contentAlignment = Alignment.BottomCenter
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
+                val annotatedString = buildAnnotatedString {
+                    append("By submitting this form, you agree and accept ")
+                    append("Harency's ")
+
+                    pushStringAnnotation(tag = "Terms & Conditions", annotation = "https://google.com/policy")
+                    withStyle(style = SpanStyle(color = Purple)) {
+                        append("Terms & Conditions")
+                    }
+
+                    append(" and ")
+
+                    pushStringAnnotation(tag = "Privacy Policy", annotation = "https://google.com/terms")
+
+                    withStyle(style = SpanStyle(color = Purple)) {
+                        append("Privacy Policy")
+                    }
+                    pop()
+                }
+                ClickableText(text = annotatedString,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal=10.dp, vertical = 20.dp),
+                    onClick = { offset ->
+                    annotatedString.getStringAnnotations(tag = "policy", start = offset, end = offset).firstOrNull()?.let {
+                        Log.d("policy URL", it.item)
+                    }
+
+                    annotatedString.getStringAnnotations(tag = "terms", start = offset, end = offset).firstOrNull()?.let {
+                        Log.d("terms URL", it.item)
+                    }
+                })
                 Image(
                     painter = painterResource(id = R.drawable.ic_wave),
                     contentDescription = null,
@@ -89,8 +127,8 @@ fun SignUpScreen() {
 }
 
 @Composable
-fun SignUpView() {
-//    val country = sharedViewModel.countryLiveData.observeAsState()
+fun SignUpView(navController: NavController, viewModel: AuthSharedViewModel) {
+    val country = viewModel.countryLiveData.observeAsState()
     val context = (LocalContext.current as? Activity)
 //    val viewModel = hiltViewModel<LoginSharedViewModel>()
 //    val country = remember { navController.previousBackStackEntry?.savedStateHandle?.get<CountriesItem>("data") }
@@ -103,11 +141,10 @@ fun SignUpView() {
 /*    val loginResponse = produceState<State<Response<UserRegisterModel>>?>(initialValue = State.Loading){
         value= sharedViewModel.loginLiveData
     }.value*/
-//    val value = if (country.value != null) "+${country.value?.codeTelePhone}" else "+91"
+    val value = if (country.value != null) "+${country.value?.codeTelePhone}" else "+91"
 
-    var password by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
+    var password by remember { mutableStateOf(TextFieldValue("")) }
+    var confirmPassword by remember { mutableStateOf(TextFieldValue("")) }
 
     Box {
         Card(
@@ -153,11 +190,10 @@ fun SignUpView() {
                                     start = 20.dp,
                                 )
                                 .clickable {
-//                                    navController.navigate(Screen.CountryCodeScreen.route)
+                                    navController.navigate(Screen.CountryCodeScreen.route)
                                 },
                         )
                     }
-
 
                 }
                 TextField(
@@ -174,28 +210,26 @@ fun SignUpView() {
                             end = 20.dp
                         ),
                     placeholder = { Text("Password") },
-//                    visualTransformation = if (sharedViewModel.isVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                    visualTransformation = if (viewModel.isVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White
                     ),
                     trailingIcon = {
-//                        val image = if (sharedViewModel.isVisible.value)
-//                            painterResource(R.drawable.ic_visibility_24)
-//                        else painterResource(R.drawable.ic_visibility_off_24)
-//
-//
-//                        IconButton(onClick = {
-//                            sharedViewModel.isVisible.value = !sharedViewModel.isVisible.value
-//                        }) {
-//                            Image(painter = image, "")
-//                        }
+                        val image = if (viewModel.isVisible.value)
+                            painterResource(R.drawable.ic_visibility_24)
+                        else painterResource(R.drawable.ic_visibility_off_24)
+                        IconButton(onClick = {
+                            viewModel.isVisible.value = !viewModel.isVisible.value
+                        }) {
+                            Image(painter = image, "")
+                        }
                     }
                 )
                 TextField(
-                    value = password,
+                    value = confirmPassword,
                     onValueChange = {
-                        password = it
+                        confirmPassword = it
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -219,12 +253,20 @@ fun SignUpView() {
                                 context?.toast("Please Enter your phone number!")
                                 return@Button
                             }
+                            password.text == "" -> {
+                                context?.toast("Please Enter your password!")
+                                return@Button
+                            }
                             password.text.length < 5 -> {
                                 context?.toast("Please length must be greater than 5")
                                 return@Button
                             }
-                            password.text == "" -> {
-                                context?.toast("Please Enter your password!")
+                            confirmPassword.text == ""->{
+                                context?.toast("Please Enter your password")
+                                return@Button
+                            }
+                            confirmPassword.text != password.text->{
+                                context?.toast("Your password didn't match!")
                                 return@Button
                             }
                             else -> {
@@ -283,10 +325,9 @@ fun SignUpView() {
 
                             }
                     )
-                }
 
+                }
             }
         }
     }
-
 }

@@ -60,9 +60,7 @@ class AuthSharedViewModel @Inject constructor(
                 repository.forgotPassword(countryCode, phoneNumber, type)
         }
 
-        withContext(ioDispatcher) {
-            isLoadingMutableStateFlow.value = false
-        }
+        withContext(ioDispatcher) { isLoadingMutableStateFlow.value = false }
 
     }
 
@@ -70,13 +68,8 @@ class AuthSharedViewModel @Inject constructor(
         loginMutableStateFlow.value = ApiState.Loading
         isLoadingMutableStateFlow.value = true
 
-        withContext(ioDispatcher) {
-//            delay(1000L)
-            loginMutableStateFlow.value = repository.login(loginRequest)
+        withContext(ioDispatcher) { loginMutableStateFlow.value = repository.login(loginRequest) }
+        withContext(ioDispatcher) { isLoadingMutableStateFlow.value = false }
 
-        }
-        withContext(ioDispatcher) {
-            isLoadingMutableStateFlow.value = false
-        }
     }
 }

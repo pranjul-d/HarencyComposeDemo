@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.macamps.harencycomposedemo.navigation.Navigation
-import com.macamps.harencycomposedemo.ui.theme.HarencyComposeDemoTheme
+import com.macamps.harencycomposedemo.common.theme.HarencyComposeDemoTheme
 import com.macamps.harencycomposedemo.utils.ApiState
 import dagger.hilt.android.AndroidEntryPoint
 

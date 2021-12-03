@@ -33,7 +33,7 @@ fun Navigation() {
             ForgetPassword(navController, sharedViewModel)
         }
         composable(route = Screen.SignUpScreen.route) {
-            SignUpScreen()
+            SignUpScreen(navController,sharedViewModel)
         }
         composable(route = Screen.CountryCodeScreen.route) {
 

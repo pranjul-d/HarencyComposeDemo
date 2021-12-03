@@ -23,7 +23,7 @@ class AuthRepository @Inject constructor(private val api: ApiService) {
 
     suspend fun forgotPassword(
         countryCode: String?,
-        phoneNumber: String,
+        phoneNumber: String?,
         type: String
     ): ApiState<Response<SuccessModel>> {
 

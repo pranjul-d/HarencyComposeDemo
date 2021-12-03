@@ -1,4 +1,4 @@
-package com.macamps.harencycomposedemo.ui.theme
+package com.macamps.harencycomposedemo.common.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

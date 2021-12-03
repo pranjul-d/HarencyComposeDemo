@@ -31,8 +31,8 @@ import com.macamps.harencycomposedemo.data.SuccessModel
 import com.macamps.harencycomposedemo.navigation.Screen
 import com.macamps.harencycomposedemo.ui.auth.login.showDialog
 import com.macamps.harencycomposedemo.ui.auth.viewModel.AuthSharedViewModel
-import com.macamps.harencycomposedemo.ui.theme.Purple500
-import com.macamps.harencycomposedemo.ui.theme.fonts
+import com.macamps.harencycomposedemo.common.theme.Purple500
+import com.macamps.harencycomposedemo.common.theme.fonts
 import com.macamps.harencycomposedemo.utils.ApiState
 import com.macamps.harencycomposedemo.utils.Constants
 import com.macamps.harencycomposedemo.utils.DrawableWrapper

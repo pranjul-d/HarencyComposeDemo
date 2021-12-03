@@ -35,8 +35,8 @@ import com.macamps.harencycomposedemo.DividerView
 import com.macamps.harencycomposedemo.R
 import com.macamps.harencycomposedemo.data.UserRegisterModel
 import com.macamps.harencycomposedemo.navigation.Screen
-import com.macamps.harencycomposedemo.ui.theme.Purple500
-import com.macamps.harencycomposedemo.ui.theme.fonts
+import com.macamps.harencycomposedemo.common.theme.Purple500
+import com.macamps.harencycomposedemo.common.theme.fonts
 import com.macamps.harencycomposedemo.utils.ApiState
 import com.macamps.harencycomposedemo.utils.DrawableWrapper
 import com.macamps.harencycomposedemo.utils.noRippleClickable
@@ -178,7 +178,7 @@ fun LoginCardView(
             ).show()
 
         }
-        is ApiState.Loading -> {
+        /*is ApiState.Loading -> {
             Toast.makeText(
                 context,
                 "Loading",
@@ -186,7 +186,7 @@ fun LoginCardView(
             ).show()
         }
         is ApiState.Empty -> {}
-        is ApiState.Error -> {}
+        is ApiState.Error -> {}*/
         else -> Unit
     }
 
@@ -334,7 +334,7 @@ fun LoginCardView(
 //            Divider
                     DividerView("Or Sign In")
                     SocialLoginButtons()
-                    SignUpBottomView()
+                    SignUpBottomView(navController)
 
                 }
             }
@@ -367,8 +367,7 @@ fun BottomView() {
 }
 
 @Composable
-@Preview(showBackground = true)
-fun SignUpBottomView() {
+fun SignUpBottomView(navController: NavController) {
 
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -398,7 +397,9 @@ fun SignUpBottomView() {
             fontFamily = fonts,
             modifier = Modifier
                 .padding()
-                .background(White).noRippleClickable { }
+                .background(White).noRippleClickable {
+                    navController.navigate(Screen.SignUpScreen.route)
+                }
         )
     }
 }
